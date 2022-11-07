@@ -71,11 +71,11 @@ mkdir -p "hardhat-project"/test && cp Hello.test.js "hardhat-project"/test
 + 新建完成后, 编译项目
 
 ```makefile
-make
+make compile
 ```
 
 ```
-OSX MP16 ~/Desktop/hardhat_demo ❯ make                                                      
+OSX MP16 ~/Desktop/hardhat_demo ❯ make compile                                                     
 cd "hardhat-project" && npx hardhat compile
 Compiled 2 Solidity files successfully
 ```
