@@ -1,110 +1,71 @@
-# hardhat_template
- hardhat编写智能合约的项目模板
+# hardhat 项目模板
 
 
+
+每次创建一个新项目需要花很多时间组织项目结构和`npm i`, 干脆做成模板, 每次copy
 
 ## 如何使用
 
-1, 下载该repo
+A. 下载或克隆项目
 
-2, 使用makefile
+到克隆文件夹中 `npm i`
 
-+ **新建项目** (项目名称可通过 makefile 中的`PROJECT_NAME="xxx"`修改)
 
-```makefile
-make new 
-```
 
-弹出提示时, 选择`Create an empty hardhat.config.js`
+B. 在zsh.rc 或bash.rc 中创建一个函数
 
-<img src="https://github.com/yinhui1984/imagehosting/blob/main/images/1667804099100546000.jpg?raw=true" alt="image" style="zoom:50%;" />
+替换 `/xxxx/newhardhatproject.sh` 为实际路径
 
 ```
-OSX MP16 ~/Desktop/hardhat_demo ❯ make new
-mkdir "hardhat-project"
-cd "hardhat-project" && npm init -y
-Wrote to /Users/zhouyinhui/Desktop/hardhat_demo/hardhat-project/package.json:
-
-{
-  "name": "hardhat-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+function newhardhatproject(){
+	zsh /xxxx/newhardhatproject.sh $1
 }
-
-
-cd "hardhat-project" && npm install --save-dev hardhat
-
-added 300 packages in 42s
-cd "hardhat-project" && npx hardhat
-888    888                      888 888               888
-888    888                      888 888               888
-888    888                      888 888               888
-8888888888  8888b.  888d888 .d88888 88888b.   8888b.  888888
-888    888     "88b 888P"  d88" 888 888 "88b     "88b 888
-888    888 .d888888 888    888  888 888  888 .d888888 888
-888    888 888  888 888    Y88b 888 888  888 888  888 Y88b.
-888    888 "Y888888 888     "Y88888 888  888 "Y888888  "Y888
-
-👷 Welcome to Hardhat v2.12.2 👷‍
-
-✔ What do you want to do? · Create an empty hardhat.config.js
-✨ Config file created ✨
-
-Give Hardhat a star on Github if you're enjoying it! 💞✨
-
-     https://github.com/NomicFoundation/hardhat
-cd "hardhat-project" && npm install --save-dev @nomicfoundation/hardhat-toolbox
-
-added 397 packages in 57s
-cd "hardhat-project" && ex -sc '1i|require("@nomicfoundation/hardhat-toolbox");' -cx hardhat.config.js
-mkdir -p "hardhat-project"/contracts && cp Hello.sol "hardhat-project"/contracts
-mkdir -p "hardhat-project"/test && cp Hello.test.js "hardhat-project"/test
 ```
 
-+ 新建完成后, 编译项目
+
+
+C. 新建项目
+
+`OSX MP16 ~/Downloads ❯ newhardhatproject myapp123`
+
+其会在当前路径下新建项目文件夹, 拷贝克隆文件夹中的文件到当前项目文件夹, 并打开vs code
+
+
+
+D. 干活
 
 ```makefile
-make compile
-```
 
-```
-OSX MP16 ~/Desktop/hardhat_demo ❯ make compile                                                     
-cd "hardhat-project" && npx hardhat compile
-Compiled 2 Solidity files successfully
-```
+.PHONY:  test, dapp
 
-+ 编译完成后, 运行单元测试
+compile:
+	npx hardhat compile
 
-```makefile
-make test
-```
+deploy:
+	@echo  "\033[31m部署合约\033[m" 
+	# 这将使用 --network localhost 进行部署
+	npx hardhat run scripts/deploy.js  --network localhost
 
-```
-OSX MP16 ~/Desktop/hardhat_demo ❯ make test
-cd "hardhat-project" && npx hardhat test
+node:
+	@echo  "\033[31m启动hardhat node\033[m" 
+	npx hardhat node
 
+test:
+	@echo  "\033[31m运行使用js编写的测试用例\033[m" 
+	@# 后面跟文件路径可以只运行某个测试文件， 比如 npx hardhat test ./test/ZombieAttack.test.js 
+	npx hardhat test
 
-  Hello contract
-enter the constructor
-this is the log in function SayHello
-    ✔ Get greeting form contract (1778ms)
-
-
-  1 passing (2s)
-
+dapp:
+	@echo  "\033[31m运行前端应用, 记得先部署并更新contract_info.js\033[m"
+	serve ./dapp -p 3000
 ```
 
 
 
-3, 添加新合约
+> 其中`dapp/index.js`中需要用到合约的地址和ABI, 其是从`dapp/contract_info.js`中导入的,
+>
+> 重新部署后, 使用打印的合约地址以及`artifacts/contracts`下的abi去更新改文件
 
-在 $(PROJECT_NAME)/contracts 下添加合约
 
-在 $(PROJECT_NAME)/test 下添加单元测试
+
+![image](https://github.com/yinhui1984/imagehosting/blob/main/images/1669180828535913000.jpg?raw=true)

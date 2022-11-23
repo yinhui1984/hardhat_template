@@ -1,0 +1,26 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    // 现在控制台运行serve， 然后启动调试
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch ",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/dapp"
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach to browser",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/dapp",
+            //退出chrome，然后
+            //以如下方式启动  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 
+            "port": 9222
+        }
+    ]
+}
